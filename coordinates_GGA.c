@@ -17,8 +17,9 @@ void print_Lo(char lo[]);
 
 int main()
 {
-
+// the main function
     receiveGGA();
+    
     return 0;
 
 }
