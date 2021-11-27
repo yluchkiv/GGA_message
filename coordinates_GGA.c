@@ -20,11 +20,17 @@ void selectGGA(char imput_message[]);
 void comma_counter(char in_message[]);
 void print_La(char lat[]);
 void print_Lo(char lo[]);
+struct nmea_rmc selectRMC(const char input_message[], unsigned int length);
 
-int main()
+int main(int argc, const char* argv[])
 {
 // the main function
     receiveGGA();
+
+    if (argc > 1) {
+        struct nmea_rmc rmc = selectRMC(argv[1], strlen(argv[1]));
+        printf("RMC: Lat=%s\t Lon=%s\n", rmc.Latitude, rmc.Longitude);
+    }
 
     return 0;
 
