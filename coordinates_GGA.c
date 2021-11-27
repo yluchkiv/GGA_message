@@ -19,7 +19,7 @@ int main()
 {
 // the main function
     receiveGGA();
-    
+
     return 0;
 
 }
@@ -27,6 +27,8 @@ int main()
 void receiveGGA()
 {
     printf("Insert your GGA massage:\n");
+    //copy your GGA message 
+    
     for (int i = 0; i< BUFFER_SIZE; i++)
     {
         
