@@ -3,6 +3,12 @@
 
 #define BUFFER_SIZE 100
 
+struct nmea_rmc
+{
+    char Latitude[20];
+    char Longitude[20];
+};
+
 
 char scanned_message[BUFFER_SIZE];
 char latitude [BUFFER_SIZE];
@@ -132,20 +138,35 @@ void print_Lo(char lo[])
 
 }
 
-
-struct nmea_rmc
+struct nmea_rmc selectRMC(const char input_message[], unsigned int length)
 {
-    char speed[20];
-    char date[20];
-};
+    struct nmea_rmc rmc = {
+        .Latitude = { '\0', },
+        .Longitude = { '\0', }
+    };
 
-struct nmea_rmc selectRMC(char input_message[], unsigned int length)
-{
-    struct nmea_rmc rmc;
+    int comma_counter = 0;
+    int lat_pos = 0;
+    int lon_pos = 0;
 
-    rmc.speed[0] = input_message[0];
-    rmc.speed[1] = (char)length;
-    rmc.speed[2] = '\0' ;
+    for (unsigned int i = 0; i < length; i++) {
+        if (input_message[i] == '$' && input_message[i+3] == 'R') {
+            comma_counter = 0;
+        }
+        if (input_message[i] == ',') {
+            comma_counter++;
+            continue;
+        }
+        if (comma_counter == 3) {
+            rmc.Latitude[lat_pos++] = input_message[i];
+        }
+        if (comma_counter == 5) {
+            rmc.Longitude[lon_pos++] = input_message[i];
+        }
+        if (comma_counter == 6) {
+            break;
+        }
+    }
 
     return rmc;
 }
