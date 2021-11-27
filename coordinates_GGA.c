@@ -131,3 +131,21 @@ void print_Lo(char lo[])
     printf ("\n");
 
 }
+
+
+struct nmea_rmc
+{
+    char speed[20];
+    char date[20];
+};
+
+struct nmea_rmc selectRMC(char input_message[], unsigned int length)
+{
+    struct nmea_rmc rmc;
+
+    rmc.speed[0] = input_message[0];
+    rmc.speed[1] = (char)length;
+    rmc.speed[2] = '\0' ;
+
+    return rmc;
+}
